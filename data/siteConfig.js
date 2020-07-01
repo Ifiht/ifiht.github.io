@@ -1,20 +1,18 @@
 module.exports = {
-  siteTitle: 'gatsby-starter-morning-dew',
-  siteDescription: 'A Gatsby theme/starter to build lightning-fast websites',
-  authorName: 'Maxence Poutord',
-  twitterUsername: '_maxpou',
+  siteTitle: 'ifiht-blog',
+  siteDescription: 'A place for musings and reflections about computer science and interstellar travel',
+  authorName: 'Michael ____',
+  //twitterUsername: 'abc',
   authorAvatar: 'avatar.jpeg', // file in content/images
   defaultLang: 'en', // show flag if lang is not default. Leave empty to enable flags in post lists
   authorDescription: `
-  For the last decade, Maxence Poutord has worked with a variety of web technologies. He is currently focused on front-end development.
-  On his day to day job, he is working as a senior front-end engineer at VSware. He is also an occasional tech speaker and a mentor.
-  As a digital nomad, he is living where the WiFi and sun are 😎 <br>
-  Do you want to know more? <a href="https://www.maxpou.fr/about" rel="noopener" target="_blank">Visit my website!</a>
+  Michael ____ is a security-conscious, technologically minded carbon-based lifeform seeking efficiency and higher-
+  order solutions to a stochastically governed and little-understood universe.
   `,
-  siteUrl: 'https://maxpou.github.io/',
-  disqusSiteUrl: 'https://www.maxpou.fr/',
-  // Prefixes all links. For cases when deployed to maxpou.fr/gatsby-starter-morning-dew/
-  pathPrefix: '/gatsby-starter-morning-dew', // Note: it must *not* have a trailing slash.
+  siteUrl: 'https://ifiht.github.io/',
+  // disqusSiteUrl: 'https://abc/',
+  // Prefixes all links. For cases when deployed to evlis.org/ifiht-blog/
+  pathPrefix: '/ifiht-blog', // Note: it must *not* have a trailing slash.
   siteCover: 'cover-baymax.jpeg', // file in content/images
   googleAnalyticsId: 'UA-67868977-2',
   background_color: '#ffffff',
@@ -67,16 +65,16 @@ module.exports = {
       links: [
         {
           label: 'GitHub',
-          url: 'https://github.com/maxpou/gatsby-starter-morning-dew',
+          url: 'https://github.com/Ifiht',
         },
         {
           label: 'Website',
-          url: 'https://www.maxpou.fr',
+          url: 'https://ifiht.github.io/',
         },
-        {
+        /*{
           label: 'Twitter',
           url: 'https://twitter.com/_maxpou',
-        },
+        },*/
       ],
     },
   ],
