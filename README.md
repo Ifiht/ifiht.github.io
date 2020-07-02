@@ -5,7 +5,7 @@
 
 A place for musings and reflections about computer science  :card_index: and interstellar travel :milky_way:
 
-![screenshot](https://i.imgur.com/nPthSQy.png)
+![screenshot](https://github.com/Ifiht/ifiht.github.io/blob/develop/content/images/cover-interstellar.png?raw=true)
 
 ## Features
 
