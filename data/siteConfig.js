@@ -3,7 +3,7 @@ module.exports = {
   siteDescription: 'A place for musings and reflections about computer science and interstellar travel',
   authorName: 'Michael ____',
   twitterUsername: 'abcdef',
-  authorAvatar: 'avatar.jpeg', // file in content/images
+  authorAvatar: 'avatar.png', // file in content/images
   defaultLang: 'en', // show flag if lang is not default. Leave empty to enable flags in post lists
   authorDescription: `
   Michael ____ is a security-conscious, technologically minded carbon-based lifeform seeking efficiency and higher-
@@ -22,7 +22,7 @@ module.exports = {
   postsPerPage: 6,
   disqusShortname: 'abcdef',
   headerTitle: 'ifiht-blog',
-  headerLinksIcon: 'baymax.png', //  (leave empty to disable: '')
+  headerLinksIcon: 'ivy-icon.png', //  (leave empty to disable: '')
   headerLinks: [
     {
       label: 'Blog',
