@@ -2,7 +2,7 @@ module.exports = {
   siteTitle: 'ifiht-blog',
   siteDescription: 'A place for musings and reflections about computer science and interstellar travel',
   authorName: 'Michael ____',
-  //twitterUsername: 'abc',
+  twitterUsername: 'abcdef',
   authorAvatar: 'avatar.jpeg', // file in content/images
   defaultLang: 'en', // show flag if lang is not default. Leave empty to enable flags in post lists
   authorDescription: `
@@ -10,18 +10,18 @@ module.exports = {
   order solutions to a stochastically governed and little-understood universe.
   `,
   siteUrl: 'https://ifiht.github.io/',
-  // disqusSiteUrl: 'https://abc/',
+  disqusSiteUrl: 'https://abcdef/',
   // Prefixes all links. For cases when deployed to evlis.org/ifiht-blog/
   pathPrefix: '/ifiht-blog', // Note: it must *not* have a trailing slash.
-  siteCover: 'cover-baymax.jpeg', // file in content/images
+  siteCover: 'cover-interstellar.png', // file in content/images
   googleAnalyticsId: 'UA-67868977-2',
   background_color: '#ffffff',
   theme_color: '#222222',
   display: 'standalone',
-  icon: 'content/images/baymax.png',
+  icon: 'content/images/ivy-icon.png',
   postsPerPage: 6,
-  disqusShortname: 'maxpou',
-  headerTitle: 'gatsby-starter-morning-dew',
+  disqusShortname: 'abcdef',
+  headerTitle: 'ifiht-blog',
   headerLinksIcon: 'baymax.png', //  (leave empty to disable: '')
   headerLinks: [
     {
