@@ -3,22 +3,29 @@ title: "Converting the Raspberry Pi rootfs to btrfs on Ubuntu 18.04"
 slug: ext4-btrfs-raspi-conversion
 date: 2020-06-28
 language: en
-cover: ./cover-balloons.jpg
+cover: ./spirit_of_java_by_meganerid.jpg
 imageShare: ./social-media-card-generator-share.png
 tags: ['gatsby', 'ubuntu', 'btrfs']
 ---
 
 
-It's now posible to generate preview images for social networks ([Twitter](https://cards-dev.twitter.com/validator), Slack, LinkedIn...).
+Many guides already exist for configuring a raspberry pi root partition to use btrfs, however there were a few circumstances that basically invalidated all of them:
+1. I needed the raspberry pi to run Ubuntu 18.04 for my android development,
+2. The ubuntu image for the pi4 has royally messed with the default /boot volume, and..
+3. I had to do this all on my Windows laptop, or the pi itself through ssh. 
 
-![twitter card](./twitter-card.png)
-
-This great idea come from a [conversation](https://twitter.com/_maxpou/status/1054106299213012992) I had with Luciano Mammino (aka [@Loige](https://twitter.com/loige)). I basically took 85% of his code. Thanks Luciano 😊
+If for some crazy reason your situation mirrors my own, I hope you find this documentation useful. Feel free to comment below if you have suggestions or improvements to the way I did things 😊
 
 
-**How to do it?**
+**Formatting the SD card**
 
-1. Open 2 terminals:
+1. I used [balenaEtcher](https://www.balena.io/etcher/) to flash the latest pi4-compatible [Ubuntu 18.04 64-bit image](https://ubuntu.com/download/raspberry-pi) onto the card.
+2. Etcher automatically unmounts the card after it's finished, so re-mount and use Disk Management (Win + R: `diskmgmt.msc`) to create _two_ partitions. The fist should be the current root partition size (unexpanded) + whatever space you'd like to add. The second must be formatted _without_ Quick Format, and use all remaining space on the volume.
+3. Once you've created both partitions, delete the first so that the space shows "unallocated". This will let the pi expand it's root partition up to your second placeholder partition.
+4. Before ejecting the SD card, create a blank file named "ssh" in the boot partition (the only one that will mount on Windows), and remove the extension. This allows us to ssh into the pi on first boot.
+
+
+**Starting up the pi**
   ```bash
   # Terminal 1
   npm run dev
@@ -35,21 +42,4 @@ This great idea come from a [conversation](https://twitter.com/_maxpou/status/10
   imageShare: ./social-media-card-generator-share.png
   ```
 
-Gatsby will first create extra url suffixed by `/image_share` (i.e. *http://localhost:8000/gatsby-starter-morning-dew-v1-1/image_share*). Then, Pupetter will take a snapshot and add it to your `post` folder.
-
 **💡Quick tip:** If you want to recreate this pictures
-
-```bash
-# delete all share images
-find ./content -name "*-share.png" -type f -delete
-```
-
-If you want to skip the file generation for some posts, add `generate-card: false` to the post's header.
-
-```yaml
----
-title: My blog post
-# ...
-generate-card: false
----
-```
