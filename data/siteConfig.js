@@ -10,7 +10,7 @@ module.exports = {
   order solutions to a stochastically governed and little-understood universe.
   `,
   siteUrl: 'https://ifiht.github.io/',
-  disqusSiteUrl: 'https://abcdef/',
+  disqusSiteUrl: 'https://ifiht.github.io/',
   // Prefixes all links. For cases when deployed to evlis.org/ifiht-blog/
   pathPrefix: '/ifiht-blog', // Note: it must *not* have a trailing slash.
   siteCover: 'cover-interstellar.png', // file in content/images
@@ -20,7 +20,7 @@ module.exports = {
   display: 'standalone',
   icon: 'content/images/ivy-icon.png',
   postsPerPage: 6,
-  disqusShortname: 'abcdef',
+  disqusShortname: 'ifiht-blog',
   headerTitle: 'ifiht-blog',
   headerLinksIcon: 'ivy-icon.png', //  (leave empty to disable: '')
   headerLinks: [
