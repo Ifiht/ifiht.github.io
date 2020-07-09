@@ -26,20 +26,13 @@ If for some crazy reason your situation mirrors my own, I hope you find this doc
 
 
 **Starting up the pi**
-  ```bash
-  # Terminal 1
-  npm run dev
-
-  # Terminal 2
-  npm run generatePostPreviewImages
-  # ..you can also specify the url (if different from http://localhost:8000/)
-  npm run generatePostPreviewImages http://localhost:1234/
   ```
-2. In the post's header, add the generated images:
-  ```yaml
-  title: My blog post
-  # ...
-  imageShare: ./social-media-card-generator-share.png
+rsync -qaHAXS --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found","boot/firmware/*"} / /mnt/3par
+
+btrfs device add /dev/mmcblk0p2 /
+
+btrfs balance start -mconvert=raid1 /
+btrfs balance start -dconvert=raid1 /
   ```
 
-**💡Quick tip:** If you want to recreate this pictures
+**💡Quick tip:** do NOT use a swap file on root!!!
