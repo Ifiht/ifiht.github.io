@@ -1,0 +1,110 @@
+---
+title: Securing Your Website with nftables and Cloudflare
+slug: nftables-cloudflare-secure
+date: 2020-07-10
+language: en
+<!-- cover: ./15300-star-map.jpg -->
+generate-card: false
+tags: ['nftables', 'firewall', 'cloudflare', 'security' ]
+---
+
+nftables is still fairly new, fairly tricky to the uninitiated, and fairly _not present_ on StackExchange sites...
+Since nothing I host ever touches our most frequently used communal computer virus (www) without layered security, here's my documentation to hopefully save others the effort of redoing all this from scratch.
+
+
+## Cloudflare
+
+* This is pretty self-explanatory, and since Cloudflare has and updates their own great documentation, I'll just post the links below here for reference. The nicest feature is being able to use Cloudflare's own database of known bots, bad actors, and geoip's to filter out visitors:
+** [Cloudflare Firewall](https://developers.cloudflare.com/firewall/cf-firewall-rules)
+* The part that we really need for this example is the list of Cloudflare's own IP blocks, for addition into our host firewall:
+** [IP Ranges](https://www.cloudflare.com/ips/)
+
+
+### Note: unless you want every new CVE to give attackers root access to your site, use **one** trusted application allowed to run with root permissions, and forward everything else. Here, our trusted app is nftables, and any other webapps (e.g. node.js) will run _unprivileged_ on their own higher port, with forwarding from ports 80 or 443.
+
+
+## Firewall (with comments)
+
+```
+table ip global4 {
+        set cloudflare4 {
+                type ipv4_addr
+                flags constant,interval # CONSTANT, INTERVAL ALLOWS US TO SPECIFY BOTH SPECIFIC IP'S AND ALSO RANGES
+                elements = { 103.21.244.0/22, 103.22.200.0/22,
+                             103.31.4.0/22, 104.16.0.0/12,
+                             108.162.192.0/18, 131.0.72.0/22,
+                             141.101.64.0/18, 162.158.0.0/15,
+                             172.64.0.0/13, 173.245.48.0/20,
+                             188.114.96.0/20, 190.93.240.0/20,
+                             197.234.240.0/22, 198.41.128.0/17 } # HERE WE ADD ALL CLOUDFLARE IPV4 CIDR ADDRESSES
+        }
+
+        chain prenat {
+                type nat hook prerouting priority -100; policy accept;
+                tcp dport https redirect to :8080 # REDIRECT ALL HTTPS TRAFFIC TO THE PORT YOUR WEBAPP IS RUNNING ON
+        }
+
+        chain input {
+                type filter hook input priority -50; policy accept;
+                log flags all
+                    ip saddr @cloudflare4 accept
+                tcp dport { domain, https } accept
+                udp dport { domain } accept
+                tcp sport { domain } accept
+                udp sport { domain } accept
+                ct state established,related accept
+                meta l4proto { tcp, udp } ip daddr $your_public_ipv4 log drop # THIS DROPS ALL TCP+UDP THAT DIDN'T ALREADY MATCH
+        }
+
+        chain postnat {
+                type nat hook postrouting priority -100; policy accept;
+        }
+}
+table ip6 global6 {
+        set cloudflare6 {
+                type ipv6_addr
+                flags constant,interval # CONSTANT, INTERVAL ALLOWS US TO SPECIFY BOTH SPECIFIC IP'S AND ALSO RANGES
+                elements = { 2400:cb00::/32,
+                             2405:8100::/32,
+                             2405:b500::/32,
+                             2606:4700::/32,
+                             2803:f800::/32,
+                             2a06:98c0::/29,
+                             2c0f:f248::/32 } # HERE WE ADD ALL CLOUDFLARE IPV6 CIDR ADDRESSES
+        }
+
+        chain prenat {
+                type nat hook prerouting priority -100; policy accept;
+                tcp dport https redirect to :8080 # REDIRECT ALL HTTPS TRAFFIC TO THE PORT YOUR WEBAPP IS RUNNING ON
+        }
+
+        chain input {
+                type filter hook input priority -50; policy accept;
+                log flags all
+                ip6 saddr @cloudflare6 accept
+                tcp dport { domain, https } accept
+                udp dport { domain } accept
+                tcp sport { domain } accept
+                udp sport { domain } accept
+                ct state established,related accept
+                meta l4proto { tcp, udp } ip6 daddr $your_public_ipv6 log drop # THIS DROPS ALL TCP+UDP THAT DIDN'T ALREADY MATCH
+        }
+
+        chain postnat {
+                type nat hook postrouting priority -100; policy accept;
+        }
+}
+table inet filter { # THIS TABLE IS NOT USED, BUT AVAILABLE AND WILL APPLY TO BOTH IPV4 AND IPV6. THE PRIORITY 0 EXECUTES IT AFTER ALL ABOVE
+        chain input {
+                type filter hook input priority 0; policy accept;
+        }
+
+        chain forward {
+                type filter hook forward priority 0; policy accept;
+        }
+
+        chain output {
+                type filter hook output priority 0; policy accept;
+        }
+}
+```
