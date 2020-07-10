@@ -14,12 +14,19 @@ This post serves both to help others duplicate my work, and remind me how I did 
 
 1. Fork the repo: [gatsby-starter-morning-dew](https://github.com/maxpou/gatsby-starter-morning-dew)
 2. Change repo name as required ([Github Pages](https://guides.github.com/features/pages/))
-3. `git clone git@github.com:/your_name/your_name.github.io.git your_blog.github.io` - downloads your repository.
-4. `git checkout -b development` - creates a branch called "development" so we can edit the blog source code.
-5. Inside the file "packages.json", add the following to your `"scripts": {}` block:
-    ```"deploy": "gatsby build && gh-pages -d public -b master",```
+3. Download your repository.
+```git clone git@github.com:/your_name/your_name.github.io.git your_blog.github.io```
+4.  - creates a branch called "development" so we can edit the blog source code.
+```git checkout -b development```
+5. Inside the file `packages.json`, add the following to your `"scripts": {}` block:
+  ```"deploy": "gatsby build && gh-pages -d public -b master",```
   This pushes the compiled code to our master branch for Github Pages to host.
-6. Once changes are finalized to the development branch, `git commit -am "I changed a file"`,  `git push`, and `npm run deploy`
+6. Once changes are finalized to the development branch, 
+```
+git commit -am "I changed a file"
+git push
+npm run deploy
+```
 7. Sit back and enjoy your blog 👓!
 
 
