@@ -4,7 +4,8 @@ slug: writing-this-blog
 date: 2020-06-27
 language: en
 cover: ./15300-star-map.jpg
-generate-card: false
+generate-card: true
+imageShare: ./social-media-card-generator-share.png
 tags: ['gatsby', 'mdx']
 ---
 
@@ -22,11 +23,10 @@ git clone git@github.com:/your_name/your_name.github.io.git your_blog.github.io
 ```
 git checkout -b develop
 ```
-5. Inside the file `packages.json`, add the following to your `"scripts": {}` block:
+5. Inside the file `packages.json`, add the following to your `"scripts": {}` block. This pushes the compiled code to our master branch for Github Pages to host:
 ```
 "deploy": "gatsby build && gh-pages -d public -b master",
 ```
-This pushes the compiled code to our master branch for Github Pages to host.
 6. Once changes are finalized to the development branch, 
 ```
 git commit -am "I changed a file"

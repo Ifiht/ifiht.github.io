@@ -4,7 +4,8 @@ slug: nftables-cloudflare-secure
 date: 2020-07-10
 language: en
 <!-- cover: ./15300-star-map.jpg -->
-generate-card: false
+generate-card: true
+imageShare: ./social-media-card-generator-share.png
 tags: ['nftables', 'firewall', 'cloudflare', 'security' ]
 ---
 
@@ -14,10 +15,10 @@ Since nothing I host ever touches our most frequently used communal computer vir
 
 ## Cloudflare
 
-* This is pretty self-explanatory, and since Cloudflare has and updates their own great documentation, I'll just post the links below here for reference. The nicest feature is being able to use Cloudflare's own database of known bots, bad actors, and geoip's to filter out visitors:
-        * [Cloudflare Firewall](https://developers.cloudflare.com/firewall/cf-firewall-rules)
-* The part that we really need for this example is the list of Cloudflare's own IP blocks, for addition into our host firewall:
-        * [IP Ranges](https://www.cloudflare.com/ips/)
++ This is pretty self-explanatory, and since Cloudflare has and updates their own great documentation, I'll just post the links below here for reference. The nicest feature is being able to use Cloudflare's own database of known bots, bad actors, and geoip's to filter out visitors:
+  + [Cloudflare Firewall](https://developers.cloudflare.com/firewall/cf-firewall-rules)
++ The part that we really need for this example is the list of Cloudflare's own IP blocks, for addition into our host firewall:
+  + [IP Ranges](https://www.cloudflare.com/ips/)
 
 
 ### 👹Note: unless you want every new CVE to give attackers root access to your site, use **one** trusted application allowed to run with root permissions, and forward everything else. Here, our trusted app is nftables, and any other webapps (e.g. node.js) will run _unprivileged_ on their own higher port, with forwarding from ports 80 or 443.
