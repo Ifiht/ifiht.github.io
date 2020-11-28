@@ -1,5 +1,5 @@
 ---
-title: "Converting the Raspberry Pi rootfs to btrfs on Ubuntu 18.04"
+title: "Converting the Raspberry Pi rootfs to RAID1 btrfs on Ubuntu 20.04"
 slug: ext4-btrfs-raspi-conversion
 date: 2020-06-28
 language: en
@@ -11,7 +11,7 @@ tags: ['gatsby', 'ubuntu', 'btrfs']
 
 
 Many guides already exist for configuring a raspberry pi root partition to use btrfs, however there were a few circumstances that basically invalidated all of them:
-1. I needed the raspberry pi to run Ubuntu 18.04 for my android development,
+1. I wanted the raspberry pi to run Ubuntu 18.04, both for the 64-bit OS and default btrfs implementation,
 2. The ubuntu image for the pi4 has royally messed with the default /boot volume, and..
 3. I had to do this all on my Windows laptop, or the pi itself through ssh. 
 
@@ -20,13 +20,29 @@ If for some crazy reason your situation mirrors my own, I hope you find this doc
 
 **Formatting the SD card**
 
-1. I used [balenaEtcher](https://www.balena.io/etcher/) to flash the latest pi4-compatible [Ubuntu 18.04 64-bit image](https://ubuntu.com/download/raspberry-pi) onto the card.
-2. Etcher automatically unmounts the card after it's finished, so re-mount and use Disk Management (Win + R: `diskmgmt.msc`) to create _two_ partitions. The fist should be the current root partition size (unexpanded) + whatever space you'd like to add. The second must be formatted _without_ Quick Format, and use all remaining space on the volume.
+1. I used [balenaEtcher](https://www.balena.io/etcher/) to flash the latest pi4-compatible [Ubuntu 20.04 64-bit image](https://ubuntu.com/download/raspberry-pi) onto the card. Or, if you'd prefer an older release: [Ubuntu 18.04 and older](http://cdimage.ubuntu.com/ubuntu/releases/18.04.5/release/)
+2. Etcher automatically unmounts the card after it's finished, so re-mount and use Disk Management (Win + R: `diskmgmt.msc`) to create _two_ partitions. The first should be the current root partition size (unexpanded) + whatever space you'd like to add. The second must be formatted _without_ Quick Format, and use all remaining space on the volume. This will take a while.
 3. Once you've created both partitions, delete the first so that the space shows "unallocated". This will let the pi expand it's root partition up to your second placeholder partition.
 4. Before ejecting the SD card, create a blank file named "ssh" in the boot partition (the only one that will mount on Windows), and remove the extension. This allows us to ssh into the pi on first boot.
 
-
 **Starting up the pi**
+
+1. Login to the new raspberry pi. I usually check the router to see what DHCP address it was assigned, do as you like. SSH with `ubuntu@X.X.X.X`, password is also ubuntu and will need to be changed.
+2. Check that the your btrfs kernel module is enabled: `sudo lsmod | grep "^btrfs"`, if you get nothing back then `sudo modprobe btrfs`.
+3. If need be, run a `sudo apt update && sudo apt install btrfs-tools`, but you should already have them on the system. If you run the command anyways, you'll change the package to manually installed.
+
+**Configure Partitions**
+
+1. `sudo fdisk /dev/mmcblk0`, then enter "p" to print the existing partitions. If you've followed everything up to now, you should see something similar to what's below:
+```
+Device         Boot    Start      End  Sectors  Size Id Type
+/dev/mmcblk0p1 *        2048   526335   524288  256M  c W95 FAT32 (LBA)
+/dev/mmcblk0p2        526336 10508287  9981952  4.8G 83 Linux
+/dev/mmcblk0p3      10508288 62521343 52013056 24.8G  f W95 Ext'd (LBA)
+/dev/mmcblk0p5      10510336 62521343 52011008 24.8G  7 HPFS/NTFS/exFAT
+```
+2. 
+
   ```
 rsync -qaHAXS --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found","boot/firmware/*"} / /mnt/3par
 
