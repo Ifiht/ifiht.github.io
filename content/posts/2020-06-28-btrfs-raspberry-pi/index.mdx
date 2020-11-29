@@ -28,8 +28,9 @@ If for some crazy reason your situation mirrors my own, I hope you find this doc
 **Starting up the pi**
 
 1. Login to the new raspberry pi. I usually check the router to see what DHCP address it was assigned, do as you like. SSH with `ubuntu@X.X.X.X`, password is also ubuntu and will need to be changed.
-2. Check that the your btrfs kernel module is enabled: `sudo lsmod | grep "^btrfs"`, if you get nothing back then `sudo modprobe btrfs`.
-3. If need be, run a `sudo apt update && sudo apt install btrfs-tools`, but you should already have them on the system. If you run the command anyways, you'll change the package to manually installed.
+2. _ENABLE SSH SERVICE_, or get locked out the first time you mess up: `sudo systemctl enable ssh`
+3. Check that the your btrfs kernel module is enabled: `sudo lsmod | grep "^btrfs"`, if you get nothing back then `sudo modprobe btrfs`.
+4. If need be, run a `sudo apt update && sudo apt install btrfs-tools`, but you should already have them on the system. If you run the command anyways, you'll change the package to manually installed.
 
 **Configure Partitions**
 
@@ -41,10 +42,30 @@ Device         Boot    Start      End  Sectors  Size Id Type
 /dev/mmcblk0p3      10508288 62521343 52013056 24.8G  f W95 Ext'd (LBA)
 /dev/mmcblk0p5      10510336 62521343 52011008 24.8G  7 HPFS/NTFS/exFAT
 ```
-2. 
+2. Take note of the start block for the root partition (mmcblk0p2), because we're about to delete and re-create everything except the boot. This should be fine as long as the starting sector remains unchanged.
+3. continue to delete ("d" is the command) until only partition 1 (mmcblk0p1) is left.
+4. Create two new partitions with the "n" command. Select "p" for primary, and make sure the first _starts_ at the exact same sector as it did before, but for size let's increase to slightly less than 1/2 of the space left. Do this by entering `+14G`, where the 14 is roughly your total space in Gigabytes divided by two minus one. It will ask if you want to delete the ext4 signature, select "N".
+5. Create a second partition the same way, using defaults and starting at the sector just after your second partition. Ensure they are exactly the same size (i.e. +14G and +14G, or whatever you chose)
+6. Check that all your commands executed as expected with "p" again, and you should now have this:
+```
+Device         Boot    Start      End  Sectors  Size Id Type
+/dev/mmcblk0p1 *        2048   526335   524288  256M  c W95 FAT32 (LBA)
+/dev/mmcblk0p2        526336 29886463 29360128   14G 83 Linux
+/dev/mmcblk0p3      29886464 59246591 29360128   14G 83 Linux
+```
+7. Write your changes and exit with "w".
+
+**BTRFS Setup**
+1. sudo mkfs.btrfs /dev/mmcblk0p3
+2. sudo mkdir /mnt/p3
+3. sudo mount /dev/mmcblk0p3 /mnt/p3
+4. sudo lsblk -f
+5. sudo nano /boot/firmware/nobtcmd.txt: root=UUID=520bcef5-5b86-4e6e-a0e7-e271db19a88d rootfstype=btrfs
+6. sudo nano /etc/fstab: UUID=520bcef5-5b86-4e6e-a0e7-e271db19a88d       /        btrfs  defaults,noatime
+7. 
 
   ```
-rsync -qaHAXS --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found","boot/firmware/*"} / /mnt/3par
+rsync -qaHAXS --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found","boot/firmware/*"} / /mnt/p3
 
 btrfs device add /dev/mmcblk0p2 /
 
