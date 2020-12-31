@@ -20,14 +20,14 @@ If for some crazy reason your situation mirrors my own, I hope you find this doc
 
 **Formatting the SD card**
 
-1. I used [balenaEtcher](https://www.balena.io/etcher/) to flash the latest pi4-compatible [Ubuntu 20.04 64-bit image](https://ubuntu.com/download/raspberry-pi) onto the card. Or, if you'd prefer an older release: [Ubuntu 18.04 and older](http://cdimage.ubuntu.com/ubuntu/releases/18.04.5/release/)
+1. I used [balenaEtcher](https://www.balena.io/etcher/) to flash the latest pi4-compatible [Ubuntu 20.04 64-bit image](https://ubuntu.com/download/raspberry-pi) onto the card. Or, if you'd prefer an older release: [Ubuntu 18.04 and older](http://cdimage.ubuntu.com/ubuntu/releases/18.04.5/release/) (for a good description of hard vs. soft float, see [Raspberry Pi Forums](https://www.raspberrypi.org/forums/viewtopic.php?t=11177). In short, the hard float image will increase your performance by using the pi's native hardware abilities.)
 2. Etcher automatically unmounts the card after it's finished, so re-mount and use Disk Management (Win + R: `diskmgmt.msc`) to create _two_ partitions. The first should be the current root partition size (unexpanded) + whatever space you'd like to add. The second must be formatted _without_ Quick Format, and use all remaining space on the volume. This will take a while.
-3. Once you've created both partitions, delete the first so that the space shows "unallocated". This will let the pi expand it's root partition up to your second placeholder partition.
+3. Once you've created both partitions, delete the first so that the space shows "unallocated". This will let the pi expand it's root partition up to your second placeholder partition. When done, it should look as below: ![Formatted Drive](./formatted.png)
 4. Before ejecting the SD card, create a blank file named "ssh" in the boot partition (the only one that will mount on Windows), and remove the extension. This allows us to ssh into the pi on first boot.
 
 **Starting up the pi**
 
-1. Login to the new raspberry pi. I usually check the router to see what DHCP address it was assigned, do as you like. SSH with `ubuntu@X.X.X.X`, password is also ubuntu and will need to be changed.
+1. Login to the new raspberry pi. I usually check the router to see what DHCP address it was assigned, do as you like. SSH with `ubuntu@X.X.X.X`, password is also `ubuntu` and will need to be changed.
 2. _ENABLE SSH SERVICE_, or get locked out the first time you mess up: `sudo systemctl enable ssh`
 3. Check that the your btrfs kernel module is enabled: `sudo lsmod | grep "^btrfs"`, if you get nothing back then `sudo modprobe btrfs`.
 4. If need be, run a `sudo apt update && sudo apt install btrfs-tools`, but you should already have them on the system. If you run the command anyways, you'll change the package to manually installed.
@@ -56,22 +56,21 @@ Device         Boot    Start      End  Sectors  Size Id Type
 7. Write your changes and exit with "w".
 
 **BTRFS Setup**
-1. sudo mkfs.btrfs /dev/mmcblk0p3
-2. sudo mkdir /mnt/p3
-3. sudo mount /dev/mmcblk0p3 /mnt/p3
-4. sudo lsblk -f
-5. sudo nano /boot/firmware/nobtcmd.txt: root=UUID=520bcef5-5b86-4e6e-a0e7-e271db19a88d rootfstype=btrfs
-6. sudo nano /etc/fstab: UUID=520bcef5-5b86-4e6e-a0e7-e271db19a88d       /        btrfs  defaults,noatime
-7. 
 
-  ```
-rsync -qaHAXS --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found","boot/firmware/*"} / /mnt/p3
-
-btrfs device add /dev/mmcblk0p2 /
-
-btrfs balance start -mconvert=raid1 /
-btrfs balance start -dconvert=raid1 /
-  ```
+Enter the following commands in order: 
+1. `sudo mkfs.btrfs /dev/mmcblk0p3`
+2. `sudo mkdir /mnt/p3`
+3. `sudo mount /dev/mmcblk0p3 /mnt/p3`
+4. `sudo rsync -qaHAXS --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found","boot/firmware/*"} / /mnt/p3` (you may want to run this command in `screen`, in case you get disconnected)
+5. `sudo lsblk -f` - take from this the _UUID_ of mmcblk0p3, this is what you will use in the below commands instead of my value.
+6. `sudo nano /boot/firmware/nobtcmd.txt`, then edit these two values to match: `root=UUID=520bcef5-5b86-4e6e-a0e7-e271db19a88d rootfstype=btrfs`
+7. `sudo nano /etc/fstab`, again changing the following line: `UUID=520bcef5-5b86-4e6e-a0e7-e271db19a88d       /        btrfs  defaults,noatime`
+8. `sudo reboot` - your device will close connection here, if you completed all the steps correctly you should be able to ssh back in within ~2 mins.
+9. `sudo lsblk -f`
+10. `sudo btrfs device add -f /dev/mmcblk0p2 /`
+11. `sudo lsblk -f`
+12. `sudo btrfs balance start -mconvert=raid1 /`
+13. `sudo btrfs balance start -dconvert=raid1 /`
 
 **Long-Term Stability**
 Clone and install [btrfs maintenance](https://github.com/kdave/btrfsmaintenance.git).
