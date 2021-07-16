@@ -1,0 +1,6 @@
+#!/bin/bash
+git config --global user.email "peter@never.lan"
+git config --global user.name "Peter Pan"
+git config --global push.default simple
+# Install theme editor:
+npm i gatsby
