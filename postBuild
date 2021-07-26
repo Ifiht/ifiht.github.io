@@ -1,8 +1,10 @@
 #!/bin/bash
+
+cd /home/jovyan
 #======{[ GIT INIT ]}=======#
 git config --global user.email "peter@never.lan"
 git config --global user.name "Peter Pan"
 git config --global push.default simple
+git checkout develop
 #======{[ NODE INIT ]}======#
-cd /home/jovyan
 npm i
