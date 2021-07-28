@@ -33,9 +33,6 @@ A place for musings and reflections about computer science  :card_index: and int
 - :construction_worker: Travis CI support
 
 
-![Lighthouse scores (locally :bowtie:)](https://lighthouse.now.sh/?perf=100&pwa=100&a11y=100&bp=100&seo=100)
-
-
 ## Commands
 
 ```sh
