@@ -63,14 +63,15 @@ Enter the following commands in order:
 3. `sudo mount /dev/mmcblk0p3 /mnt/p3`
 4. `sudo rsync -qaHAXS --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found","boot/firmware/*"} / /mnt/p3` (you may want to run this command in `screen`, in case you get disconnected)
 5. `sudo lsblk -f` - take from this the _UUID_ of mmcblk0p3, this is what you will use in the below commands instead of my value.
-6. `sudo nano /boot/firmware/nobtcmd.txt`, then edit these two values to match: `root=UUID=520bcef5-5b86-4e6e-a0e7-e271db19a88d rootfstype=btrfs`
+6. `sudo nano /boot/firmware/nobtcmd.txt` (or `cmdline.txt`, depending on your version), then edit these two values to match: `root=UUID=520bcef5-5b86-4e6e-a0e7-e271db19a88d rootfstype=btrfs`
 7. `sudo nano /etc/fstab`, again changing the following line: `UUID=520bcef5-5b86-4e6e-a0e7-e271db19a88d       /        btrfs  defaults,noatime`
-8. `sudo reboot` - your device will close connection here, if you completed all the steps correctly you should be able to ssh back in within ~2 mins.
-9. `sudo lsblk -f`
-10. `sudo btrfs device add -f /dev/mmcblk0p2 /`
-11. `sudo lsblk -f`
-12. `sudo btrfs balance start -mconvert=raid1 /`
-13. `sudo btrfs balance start -dconvert=raid1 /`
+8. Perform one last `rsync` exactly like in step 4, to capture the above changes.
+9. `sudo reboot` - your device will close connection here, if you completed all the steps correctly you should be able to ssh back in within ~2 mins.
+10. `sudo lsblk -f`
+11. `sudo btrfs device add -f /dev/mmcblk0p2 /`
+12. `sudo lsblk -f`
+13. `sudo btrfs balance start -mconvert=raid1 /`
+14. `sudo btrfs balance start -dconvert=raid1 /`
 
 **Long-Term Stability**
 Clone and install [btrfs maintenance](https://github.com/kdave/btrfsmaintenance.git).
