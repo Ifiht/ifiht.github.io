@@ -7,4 +7,5 @@ git config --global user.name "Peter Pan"
 git config --global push.default simple
 git checkout develop
 #======{[ NODE INIT ]}======#
-npm i
+npm install --global yarn
+#npm i
