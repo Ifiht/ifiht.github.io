@@ -2,4 +2,4 @@ name: gatsby
 channels:
   - conda-forge
 dependencies:
-  - nodejs=12.*
+  - nodejs=14.*
