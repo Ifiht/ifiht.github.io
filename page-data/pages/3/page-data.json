@@ -1,5 +1,0 @@
-{
-    "componentChunkName": "component---src-templates-blog-list-template-js",
-    "path": "/pages/3",
-    "result": {"data":{"site":{"siteMetadata":{"title":"ifiht-blog","description":"A place for musings and reflections about computer science and interstellar travel"}},"posts":{"edges":[{"node":{"excerpt":"Sedisti civiliter Lorem  markdownum  Ixione palus  semper peritura barbaque  in aureus\nobliquum erigitur gemmae utque cur natus, aera…","timeToRead":1,"frontmatter":{"title":"Bold Mage (fake post)","tags":["programming","stuff","fake"],"language":"en","slug":"bold-mage"}}}]}},"pageContext":{"limit":6,"skip":12,"currentPage":3,"nbPages":3}},
-    "staticQueryHashes": ["1956263691","4156811642"]}
