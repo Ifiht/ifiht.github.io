@@ -1,0 +1,36 @@
+---
+title: How to Root the Xperia XZ2 Compact (with stock images)
+slug: rooting-xz2-compact
+date: 2021-11-12
+language: en
+cover: ./sony_cam.jpg
+generate-card: true
+imageShare: ./social-media-card-generator-share.png
+tags: ['sony', 'magisk', 'android', 'root']
+---
+
+I've been an avid Sony Xperia fan since the X compact, and although their [Developer Site](https://developer.sony.com/) is awesome, support for rooting is pretty minimal compared to some other mainstream phones. Hopefully, this blog post will help with that.
+
+## Required Software:
+
+- Sony [Flash Tool](https://developer.sony.com/develop/open-devices/get-started/flash-tool/download-flash-tool/)
+- Latest [Magisk](https://github.com/topjohnwu/Magisk/releases) release
+- Sony [Dump Tool](https://forum.xda-developers.com/attachments/sony_dump_tool-zip.4865161/)
+- And the xperia phone itself.
+
+## Steps:
+
+1. Install Emma (the Sony Flash Tool), adb, fastboot, and other required android dev software to be able to connect and flash your phone. Getting this working can be tough, but there is already a lot of info out there so I won't go into it. Use google ;)
+2. Connect your phone (instructions are in Emma's help menu)
+3. Flash the latest software to the phone. This will create a local folder with the software date, _within_ the Emma application folder, under `Xperia Flash Tool\2021-10-19-182722\localstorage\Special1` for example. You'll find two `FILE_NNNNNNNN` type files, pick the largest, right click and "Extract Here" (it's just a common archive).
+4. Go into the newly extracted folder, and extract your Sony Dump Tool inside it.
+5. Move `boot_X-FLASH-ALL-B6B5.sin` into the sony dump tool folder.
+6. Run the sony dump tool on the sin file.
+7. unplug your phone, turn it on, and connect it to the computer with adb
+8. Transfer the extracted img file, and the Magisk apk to your phone, and install Magisk.
+9. Run magisk and use it to patch the boot.img file you transferred, then send it back to your computer.
+10. Execute `adb reboot flash` to enter fastboot on your phone
+11. Once you see the phone with `fastboot devices`, execute `fastboot flash boot PATH_TO_MAGISK_IMG`
+12. LAST STEP! Boot up the phone, and from inside the Magisk app, install Magisk onto the bootloader again.
+
+CONGRATS! That's it.

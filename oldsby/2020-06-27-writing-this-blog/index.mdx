@@ -1,0 +1,75 @@
+---
+title: Writing a Gatsby Blog
+slug: writing-this-blog
+date: 2020-06-27
+language: en
+cover: ./15300-star-map.jpg
+generate-card: true
+imageShare: ./social-media-card-generator-share.png
+tags: ['gatsby', 'mdx']
+---
+
+This post serves both to help others duplicate my work, and remind me how I did it myself, if ever I forget. At the bottom I'll probably keep it updated with all my Markdown quick references, since I'll be using this as my primary reference doc for writing other blog posts.
+
+## Getting Started
+
+1. Fork the repo: [gatsby-starter-morning-dew](https://github.com/maxpou/gatsby-starter-morning-dew)
+2. Change repo name as required ([Github Pages](https://guides.github.com/features/pages/))
+3. Download your repository:
+```
+git clone git@github.com:/your_name/your_name.github.io.git your_blog.github.io
+```
+4. Create a branch called "develop" so we can edit the blog source code:
+```
+git checkout -b develop
+```
+5. Inside the file `packages.json`, add the following to your `"scripts": {}` block. This pushes the compiled code to our master branch for Github Pages to host:
+```
+"deploy": "gatsby build && gh-pages -d public -b master",
+```
+6. Once changes are finalized to the development branch, 
+```
+git commit -am "I changed a file"
+git push
+npm run deploy
+```
+7. Sit back and enjoy your blog 👓!
+
+
+## Usage & Examples
+
+```
+---
+title: "How to generate social share images"
+slug: social-media-card-generator
+date: 2018-11-13
+language: en
+cover: ./cover-balloons.jpg
+imageShare: ./social-media-card-generator-share.png
+tags:
+  - gatsby
+---
+```
+
+The above is an example header for a new blog entry. All blog posts should be filed under 
+
+`/content/posts/yyyy-mm-dd-post_title`
+
+One file is required, another recommended:
+
+1. `index.mdx` will become the post itself (required)
+2. `cover-balloons.jpg`, or whatever your desired cover image is named (recommended)
+
+After the post is finished, execute the npm deploy command created above to make your changes live.
+
+## Further Reading
+
+For more examples & references, see the [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) and is meant to test styling of Markdown generated documents.
+
+This is intended as a quick reference and showcase. For more complete info, see [John Gruber's original spec](http://daringfireball.net/projects/markdown/) and the [Github-flavored Markdown info page](http://github.github.com/github-flavored-markdown/).
+
+This cheatsheet is specifically *Markdown Here's* version of Github-flavored Markdown. This differs slightly in styling and syntax from what Github uses, so what you see below might vary a little from what you get in a *Markdown Here* email, but it should be pretty close.
+
+You can play around with Markdown on our [live demo page](http://www.markdown-here.com/livedemo.html).
+
+(If you're not a Markdown Here user, check out the [Markdown Cheatsheet](./Markdown-Cheatsheet) that is not specific to MDH. But, really, you should also use Markdown Here, because it's awesome. http://markdown-here.com)

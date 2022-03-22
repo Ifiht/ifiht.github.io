@@ -19,12 +19,13 @@ A gatsby-starter-morning-dew is a Gatsby theme/starter to build lightning-fast w
 
 ## Features
 
-- [💜 Gatsby v2](https://www.gatsbyjs.org/) / React 16
+- [💜 Gatsby v3](https://www.gatsbyjs.org/) / React 16
 - 🔍 SEO optimized
 - 💌 Write posts/pages in Markdown or [MDX](https://mdxjs.com/)
   - 🎨 Code syntax highlight
   - 📚 Multilang support (blog post)
 - 📱 Mobile Friendly (Responsive design)
+- 🌜 Dark mode
 - ✨ PWA ready
   - ✈️ Offline support
   - 📃 Manifest support 
@@ -33,7 +34,6 @@ A gatsby-starter-morning-dew is a Gatsby theme/starter to build lightning-fast w
 - 💅 css-in-js (with [styled-components](https://www.styled-components.com))
 - 🧙‍♀️ Use it as a starter or [as a theme](https://www.gatsbyjs.org/blog/2018-11-11-introducing-gatsby-themes/)
 - 🔖 Groups post with tags
-- 📊 Google Analytics support
 - 🐦 post preview image generation (Twitter, Facebook)
 - 💎 Developer tools (eslint, prettier)
 - 👷 Travis CI support

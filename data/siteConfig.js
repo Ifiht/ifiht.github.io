@@ -11,7 +11,7 @@ module.exports = {
   `,
   siteUrl: 'https://ifiht.github.io/',
   disqusSiteUrl: 'https://ifiht.github.io/',
-  // Prefixes all links. For cases when deployed to evlis.org/ifiht-blog/
+  // Prefixes all links. For cases when deployed to maxpou.fr/gatsby-starter-morning-dew/
   pathPrefix: '/ifiht-blog', // Note: it must *not* have a trailing slash.
   siteCover: 'cover-interstellar.png', // file in content/images
   googleAnalyticsId: 'UA-67868977-2',
@@ -66,14 +66,17 @@ module.exports = {
         {
           label: 'GitHub',
           url: 'https://github.com/Ifiht',
+          rel: 'external',
         },
         {
           label: 'Website',
           url: 'https://ifiht.github.io/',
+          rel: 'external',
         },
         /*{
           label: 'Twitter',
           url: 'https://twitter.com/_maxpou',
+          rel: 'external',
         },*/
       ],
     },
