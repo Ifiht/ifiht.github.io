@@ -1,1 +1,5 @@
-{"componentChunkName":"component---src-templates-tags-js","path":"/tags/android","result":{"data":{"posts":{"edges":[{"node":{"excerpt":"I've been an avid Sony Xperia fan since the X compact, and although their  Developer Site  is awesome, support for rooting is pretty minimal…","timeToRead":1,"frontmatter":{"title":"How to Root the Xperia XZ2 Compact (with stock images)","tags":["sony","magisk","android","root"],"language":"en","slug":"rooting-xz2-compact"}}}]}},"pageContext":{"tag":"android"}}}
+{
+    "componentChunkName": "component---src-templates-tags-js",
+    "path": "/tags/android",
+    "result": {"data":{"posts":{"edges":[{"node":{"excerpt":"I've been an avid Sony Xperia fan since the X compact, and although their  Developer Site  is awesome, support for rooting is pretty minimal…","timeToRead":1,"frontmatter":{"title":"How to Root the Xperia XZ2 Compact (with stock images)","tags":["sony","magisk","android","root"],"language":"en","slug":"rooting-xz2-compact"}}}]}},"pageContext":{"tag":"android"}},
+    "staticQueryHashes": ["1956263691","4156811642"]}
